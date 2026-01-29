@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+    "hls.js": "^1.6.15",
     "node-poweredup": "^10.1.0",
     "ws": "^8.19.0"
   }
