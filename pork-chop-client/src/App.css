@@ -1,7 +1,6 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
   text-align: center;
 }
 
@@ -25,8 +24,8 @@
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
-.react {
-  font-size: 0.5em;
+.github {
+  font-size: 0.2em;
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
@@ -54,7 +53,11 @@
 
 
 .footer {
-  /* color: #888; */
+  background-color: #282c34;
+  color: white;
+  height: 3vh;
+  margin: 0;
+  padding: 2px 0;
     position: fixed;
     bottom: 0;
     left: 0; /* Optional: ensures it stretches from left edge */
