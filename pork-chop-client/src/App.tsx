@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import {  useRef, useState } from 'react'
 import reactLogo from "/GitHub_Invertocat_White.png"
 import bacon from '/canvas.png'
 import './App.css'
+import CameraFeed from './CameraFeed';
 
 function App() {
   const [connected, setConnected] = useState(false);
@@ -59,9 +60,12 @@ function App() {
             <button onClick={() => sendCommand('s')}>Backward</button>
             <button onClick={() => sendCommand('q')}>Stop</button>
           </div>)}
+          <div>
+            <CameraFeed />
+            </div>
       </div>
       <p className="footer">
-            <img src={reactLogo} className="logo react" alt="React logo" />
+            <img src={reactLogo} className="logo github" alt="github logo" />
       </p>
             </>
   )
