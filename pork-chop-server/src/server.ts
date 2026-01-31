@@ -5,32 +5,62 @@ import { spawn } from 'child_process'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
+import cors from 'cors';
+import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 const port = 3001;
 
-app.use('/stream', express.static(path.join(__dirname, 'public/stream')));
+const streamPath = path.join(__dirname, 'public/stream/stream.m3u8');
+const streamDir = path.join(__dirname, 'public/stream');
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}))
+app.get('/test', (req, res) => {
+  res.send('Server is alive');
+});
+
+app.get('/stream-debug', (req, res) => {
+  const streamPath = "/Users/lsantini/Code/Timmy/pork-chop-server/src/public/stream" //path.join(__dirname, 'public/stream/stream.m3u8');
+  res.json({
+    exists: fs.existsSync(streamPath),
+    path: streamPath,
+    files: fs.readdirSync(path.join(__dirname, 'public/stream'))
+  });
+});
+app.use('/stream', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+}, express.static(path.join(__dirname, 'public/stream')));
 
 const ffmpeg = spawn('ffmpeg', [
   '-rtsp_transport', 'tcp',
   '-i', 'rtsp://admin:AslanBear@192.168.68.138:554/h264Preview_01_main',
-  '-c:v', 'copy', // Copy video codec (no re-encoding = faster)
+  '-c:v', 'copy',
   '-f', 'hls',
   '-hls_time', '2',
   '-hls_list_size', '3',
   '-hls_flags', 'delete_segments+append_list',
-  '-hls_segment_filename', 'public/stream/segment%03d.ts',
-  'public/stream/stream.m3u8'
+  '-hls_segment_filename', `${streamDir}/segment%03d.ts`,
+  `${streamDir}/stream.m3u8`
 ]);
 
+// Make sure directory exists
+if (!fs.existsSync(streamDir)) {
+  fs.mkdirSync(streamDir, { recursive: true });
+}
+console.log('ffmpeg will write to:', streamDir);
+
 ffmpeg.stderr.on('data', (data: any) => {
-  console.log(`ffmpeg: ${data}`);
+  // console.log(`ffmpeg: ${data}`);
 });
 
 ffmpeg.on('close', (code: any) => {
-  console.log(`ffmpeg exited with code ${code}`);
+  // console.log(`ffmpeg exited with code ${code}`);
 });
 
 
@@ -57,17 +87,17 @@ poweredUP.scan();
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  
+
   ws.on('message', (message) => {
     const cmd = message.toString();
     console.log('Command:', cmd);
-    
+
     if (!motor) {
       ws.send(JSON.stringify({ error: 'Motor not ready' }));
       return;
     }
-    
-    switch(cmd) {
+
+    switch (cmd) {
       case 'w':
         motor.setPower(50);
         break;
@@ -78,7 +108,7 @@ wss.on('connection', (ws) => {
         motor.brake();
         break;
     }
-    
+
     ws.send(JSON.stringify({ status: 'ok', command: cmd }));
   });
 });
