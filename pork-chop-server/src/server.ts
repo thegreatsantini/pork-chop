@@ -110,19 +110,22 @@ wss.on('connection', (ws) => {
       case 's':
         elbow.setPower(-50);
         break;
+      case 'a':
+        arm.setPower(50);
+        break;
+      case 'd':
+        arm.setPower(-50);
+        break;
       case 'r':
         arm.setPower(50);
         break;
       case 'f':
         arm.setPower(-50);
         break;
-      case 'r':
-        arm.setPower(50);
+      case 'e':
+        base.setPower(50);
         break;
       case 'q':
-        arm.setPower(50);
-        break;
-      case 'e':
         base.setPower(-50);
         break;
       case 'stop':
