@@ -22,17 +22,33 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  /* filter: drop-shadow(0 0 2em #646cffaa); */
+  filter: 
+  drop-shadow(0 0 20px #ff4500)
+  drop-shadow(0 0 40px #ff6b00)
+  drop-shadow(0 0 60px #ff8c00)
+  brightness(1.2);
+  /* animation: fire 2s ease-in-out infinite; */
+  animation: fire 2s ease-in-out infinite, logo-spin infinite 20s linear;
 }
 .github {
   font-size: 0.2em;
 }
-.logo.react:hover {
+.logo.github:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 .logo-spin {
   animation: logo-spin infinite 20s linear;
+}
+
+@keyframes fire {
+  0%, 100% { 
+    filter: drop-shadow(0 0 20px #ff4500) drop-shadow(0 0 40px #ff6b00) brightness(1.2); 
+  }
+  50% { 
+    filter: drop-shadow(0 0 30px #ff0000) drop-shadow(0 0 50px #ff8c00) brightness(1.4); 
+  }
 }
 
 @keyframes logo-spin {

@@ -56,9 +56,16 @@ function App() {
             gap: '20px',
             alignItems: 'center'
           }}>
-            <button onClick={() => sendCommand('w')}>Forward</button>
-            <button onClick={() => sendCommand('s')}>Backward</button>
-            <button onClick={() => sendCommand('q')}>Stop</button>
+            <button onClick={() => sendCommand('w')}>Up</button>
+            <button onClick={() => sendCommand('s')}>Down</button>
+            <button onClick={() => sendCommand('d')}>Left</button>
+            <button onClick={() => sendCommand('a')}>Right</button>
+            <button onClick={() => sendCommand('r')}>Arm up</button>
+            <button onClick={() => sendCommand('f')}>Arm down</button>
+            <button onClick={() => sendCommand('e')}>Base L</button>
+            <button onClick={() => sendCommand('q')}>Base R</button>
+
+            <button onClick={() => sendCommand('stop')}>Space</button>
           </div>)}
           <div>
             <CameraFeed />
