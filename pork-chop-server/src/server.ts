@@ -72,15 +72,21 @@ const wss = new WebSocketServer({ server });
 
 const poweredUP = new PoweredUP();
 let hub: any = null;
-let motor: any = null;
+let base: any = null;
+let elbow: any = null;
+let arm: any = null;
 
 // Scan for hub on startup
 poweredUP.on("discover", async (discoveredHub) => {
   console.log('Hub discovered!');
   await discoveredHub.connect();
   hub = discoveredHub;
-  motor = await hub.waitForDeviceAtPort("A");
+  base = await hub.waitForDeviceAtPort("A");
   console.log('Motor ready on port A');
+  elbow = await hub.waitForDeviceAtPort("B");
+  console.log('Motor ready on port B');
+  arm = await hub.waitForDeviceAtPort("C");
+  console.log('Motor ready on port C');
 });
 
 poweredUP.scan();
@@ -92,20 +98,37 @@ wss.on('connection', (ws) => {
     const cmd = message.toString();
     console.log('Command:', cmd);
 
-    if (!motor) {
+    if (!base || !arm || !elbow) {
       ws.send(JSON.stringify({ error: 'Motor not ready' }));
       return;
     }
 
     switch (cmd) {
       case 'w':
-        motor.setPower(50);
+        elbow.setPower(50);
         break;
       case 's':
-        motor.setPower(-50);
+        elbow.setPower(-50);
+        break;
+      case 'r':
+        arm.setPower(50);
+        break;
+      case 'f':
+        arm.setPower(-50);
+        break;
+      case 'r':
+        arm.setPower(50);
         break;
       case 'q':
-        motor.brake();
+        arm.setPower(50);
+        break;
+      case 'e':
+        base.setPower(-50);
+        break;
+      case 'stop':
+        arm.setPower(0);
+        elbow.setPower(0);
+        base.setPower(0);
         break;
     }
 

@@ -32,7 +32,7 @@ function CameraFeed() {
 
   return (
     <div>
-      <h2>Printer Cam</h2>
+      <h2>Robo Cam</h2>
       <video 
         ref={videoRef} 
         controls 
