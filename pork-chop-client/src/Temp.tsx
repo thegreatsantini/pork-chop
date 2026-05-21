@@ -94,12 +94,12 @@ export function ArmControl({
   onCommand,
   onEStop,
   joints = { base: { angle: 0 }, shoulder: { angle: 0 }, elbow: { angle: 0 } },
-  
+
 }: ArmControlProps) {
   const [mode, setMode] = useState<ControlMode>('momentary')
   const intervals = useRef<Partial<Record<JointName, ReturnType<typeof setInterval>>>>({})
   const latchedRef = useRef<Partial<Record<JointName, ReturnType<typeof setInterval>>>>({})
-    const { connect, connected, disconnect,sendCommand } = usePorkChop();
+  const { connect, connected, disconnect, sendCommand } = usePorkChop();
 
   const clearAll = useCallback(() => {
     Object.values(intervals.current).forEach(clearInterval)
@@ -174,8 +174,8 @@ export function ArmControl({
             </button>
           </div>
 
-          <button className="estop-btn estop-btn--sm" onClick={handleEStop}>
-            E-Stop
+          <button className="estop-btn estop-btn--sm" onClick={connect}>
+            Connect
           </button>
         </Cluster>
       </div>
