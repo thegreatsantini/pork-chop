@@ -1,81 +1,36 @@
-import {  useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import reactLogo from "/GitHub_Invertocat_White.png"
 import bacon from '/canvas.png'
+import { Container, Stack, Cluster, Grid } from './components/layout'
+
 import './App.css'
-import CameraFeed from './CameraFeed';
-
+import { useWebSocket } from './components/porkchop/hooks'
+import { WebSocketProvider } from './components'
+import ConnectButton from './components/porkchop/ConnectButton'
+import JointCard from './components/porkchop/JointCard'
+import {ArmControl} from "./Temp"
 function App() {
-  const [connected, setConnected] = useState(false);
-  const ws = useRef<WebSocket | null>(null);
-
-  const connect = () => {
-    ws.current = new WebSocket('ws://localhost:3001');
-    
-    ws.current.onopen = () => {
-      console.log('WebSocket connected');
-      setConnected(true);
-    };
-    
-    ws.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log('Server says:', data);
-    };
-    
-    ws.current.onclose = () => {
-      console.log('WebSocket disconnected');
-      setConnected(false);
-    };
-  };
-
-  const sendCommand = (cmd: string) => {
-    if (ws.current?.readyState === WebSocket.OPEN) {
-      ws.current.send(cmd);
-    }
-  };
-
   return (
-    <>
-    <div className='header'>
-      <div>
-          <img src={bacon} className="logo logo-spin" alt="Sizziling Bacon" />
-      </div>
-        </div>
-      <h1>Beware The Pork-Chop!</h1>
-      <div className="card">
-        <div style={{position: 'relative', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center',alignContent: 'center' }}>
-          <button onClick={connect} disabled={!!connected}>
-            {connected ? 'Connected' : 'Connect to Pork-Chop!'}
-          </button>
-          {connected && <p style={{position: 'absolute',top: -4, left:222, margin: '0 5px', color: 'lime' }}>✓</p>}
-        </div>
-        {true && (
-          <div style={{
-            marginTop: '20px',
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '20px',
-            alignItems: 'center'
-          }}>
-            <button onClick={() => sendCommand('w')}>Up</button>
-            <button onClick={() => sendCommand('s')}>Down</button>
-            <button onClick={() => sendCommand('d')}>Left</button>
-            <button onClick={() => sendCommand('a')}>Right</button>
-            <button onClick={() => sendCommand('r')}>Arm up</button>
-            <button onClick={() => sendCommand('f')}>Arm down</button>
-            <button onClick={() => sendCommand('e')}>Base L</button>
-            <button onClick={() => sendCommand('q')}>Base R</button>
+    <WebSocketProvider>
+      {/* <div className="sizzle-app">
+        <header className="sizzle-panel__header">
+          <Cluster justify='between'>
+            <h1>PorkChop</h1>
+            <ConnectButton />
+          </Cluster>
+        </header> */}
 
-            <button onClick={() => sendCommand('stop')}>Space</button>
-          </div>)}
-          <div>
-            <CameraFeed />
-            </div>
-      </div>
-      <p className="footer">
-            <img src={reactLogo} className="logo github" alt="github logo" />
-      </p>
-            </>
+        <main className="sizzle-main">
+          {/* <Container> */}
+            {/* <Stack gap="lg"> */}
+              <ArmControl  />
+            {/* </Stack> */}
+          {/* </Container> */}
+        </main>
+      {/* </div>x */}
+    </WebSocketProvider>
   )
 }
+
 
 export default App
