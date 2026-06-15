@@ -22,9 +22,9 @@ interface ArmControlProps {
 // ── Joint config ──────────────────────────────────────────────────────────
 
 const JOINT_CONFIG = [
-  { name: 'base' as JointName, label: 'Base', axis: 'horizontal' },
-  { name: 'shoulder' as JointName, label: 'Shoulder', axis: 'vertical' },
-  { name: 'elbow' as JointName, label: 'Elbow', axis: 'vertical' },
+  { name: 'base' as JointName, label: 'Base', axis: 'horizontal', values: { left: 'e', right: 'q' } },
+  { name: 'shoulder' as JointName, label: 'Shoulder', axis: 'vertical', values: { left: 'a', right: 'd' } },
+  { name: 'elbow' as JointName, label: 'Elbow', axis: 'vertical', values: { left: 'w', right: 's' } },
 ]
 
 const STEP = 5
@@ -39,11 +39,12 @@ interface JointCardProps {
   axis: 'horizontal' | 'vertical'
   mode: ControlMode
   disabled: boolean
-  onPress: (joint: JointName, delta: number) => void
-  onRelease: (joint: JointName) => void
+  onPress: (joint: string, delta: number) => void
+  onRelease: (joint: string) => void
+  values: { left: string, right: string }
 }
 
-function JointCard({ label, name, angle, axis, disabled, onPress, onRelease }: JointCardProps) {
+function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }: JointCardProps) {
   const isHorizontal = axis === 'horizontal'
 
   const btnA = isHorizontal
@@ -67,9 +68,9 @@ function JointCard({ label, name, angle, axis, disabled, onPress, onRelease }: J
           className="joint-btn"
           title={btnA.title}
           disabled={disabled}
-          onPointerDown={() => onPress(name, btnA.delta)}
-          onPointerUp={() => onRelease(name)}
-          onPointerLeave={() => onRelease(name)}
+          onPointerDown={() => onPress(values.left, btnA.delta)}
+          onPointerUp={() => onRelease(values.left)}
+          onPointerLeave={() => onRelease(values.left)}
         >
           {btnA.label}
         </button>
@@ -77,9 +78,9 @@ function JointCard({ label, name, angle, axis, disabled, onPress, onRelease }: J
           className="joint-btn"
           title={btnB.title}
           disabled={disabled}
-          onPointerDown={() => onPress(name, btnB.delta)}
-          onPointerUp={() => onRelease(name)}
-          onPointerLeave={() => onRelease(name)}
+          onPointerDown={() => onPress(values.right, btnB.delta)}
+          onPointerUp={() => onRelease(values.right)}
+          onPointerLeave={() => onRelease(values.right)}
         >
           {btnB.label}
         </button>
@@ -97,8 +98,8 @@ export function ArmControl({
 
 }: ArmControlProps) {
   const [mode, setMode] = useState<ControlMode>('momentary')
-  const intervals = useRef<Partial<Record<JointName, ReturnType<typeof setInterval>>>>({})
-  const latchedRef = useRef<Partial<Record<JointName, ReturnType<typeof setInterval>>>>({})
+  const intervals = useRef<Partial<Record<string, ReturnType<typeof setInterval>>>>({})
+  const latchedRef = useRef<Partial<Record<string, ReturnType<typeof setInterval>>>>({})
   const { connect, connected, sendCommand } = usePorkChop();
 
   const clearAll = useCallback(() => {
@@ -108,9 +109,9 @@ export function ArmControl({
     latchedRef.current = {}
   }, [])
 
-  const handlePress = useCallback((joint: JointName) => {
+  const handlePress = useCallback((joint: string) => {
     if (!connected) return
-
+    console.log(joint)
     if (mode === 'momentary') {
       intervals.current[joint] = setInterval(() => {
         sendCommand?.(joint)
@@ -128,7 +129,7 @@ export function ArmControl({
     }
   }, [connected, mode, sendCommand])
 
-  const handleRelease = useCallback((joint: JointName) => {
+  const handleRelease = useCallback((joint: string) => {
     if (mode === 'momentary') {
       clearInterval(intervals.current[joint])
       delete intervals.current[joint]
@@ -187,6 +188,7 @@ export function ArmControl({
             <JointCard
               key={joint.name}
               name={joint.name}
+              values={joint.values}
               label={joint.label}
               angle={joints[joint.name].angle}
               axis={joint.axis as "horizontal" | "vertical"}

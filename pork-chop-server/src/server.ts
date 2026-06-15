@@ -74,7 +74,7 @@ const poweredUP = new PoweredUP();
 let hub: any = null;
 let base: any = null;
 let elbow: any = null;
-let arm: any = null;
+let shoulder: any = null;
 
 // Scan for hub on startup
 poweredUP.on("discover", async (discoveredHub) => {
@@ -85,7 +85,7 @@ poweredUP.on("discover", async (discoveredHub) => {
   console.log('Motor ready on port A');
   elbow = await hub.waitForDeviceAtPort("B");
   console.log('Motor ready on port B');
-  arm = await hub.waitForDeviceAtPort("C");
+  shoulder = await hub.waitForDeviceAtPort("C");
   console.log('Motor ready on port C');
 });
 
@@ -98,7 +98,7 @@ wss.on('connection', (ws) => {
     const cmd = message.toString();
     console.log('Command:', cmd);
 
-    if (!base || !arm || !elbow) {
+    if (!base || !shoulder || !elbow) {
       ws.send(JSON.stringify({ error: 'Motor not ready' }));
       return;
     }
@@ -111,25 +111,19 @@ wss.on('connection', (ws) => {
         elbow.setPower(-50);
         break;
       case 'a':
-        arm.setPower(50);
-        break;
-      case 'd':
-        arm.setPower(-50);
-        break;
-      case 'r':
-        arm.setPower(50);
-        break;
-      case 'f':
-        arm.setPower(-50);
-        break;
-      case 'e':
         base.setPower(50);
         break;
-      case 'q':
+      case 'd':
         base.setPower(-50);
         break;
+      case 'r':
+        shoulder.setPower(50);
+        break;
+      case 'f':
+        shoulder.setPower(-50);
+        break;
       case 'stop':
-        arm.setPower(0);
+        shoulder.setPower(0);
         elbow.setPower(0);
         base.setPower(0);
         break;
