@@ -108,7 +108,7 @@ export function ArmControl({
     latchedRef.current = {}
   }, [])
 
-  const handlePress = useCallback((joint: JointName, delta: number) => {
+  const handlePress = useCallback((joint: JointName) => {
     if (!connected) return
 
     if (mode === 'momentary') {
