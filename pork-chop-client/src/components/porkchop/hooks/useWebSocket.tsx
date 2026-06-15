@@ -52,7 +52,7 @@ export function useWebSocket(url: string) {
         ws.current = null;
     }, []);
 
-    const sendCommand = useCallback((cmd: string, delta?:number ) => {
+    const sendCommand = useCallback((cmd: string) => {
         if (ws.current?.readyState === WebSocket.OPEN) {
             ws.current.send(cmd);
         } else {

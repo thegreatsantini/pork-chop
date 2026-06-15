@@ -5,7 +5,7 @@ type WebSocketContextType = ReturnType<typeof useWebSocket>;
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null);
 
-export function WebSocketProvider({ children }) {
+export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     const ws = useWebSocket('ws://localhost:3001');
     return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;
 }

@@ -1,6 +1,6 @@
 // ArmControl.tsx
 import { useState, useRef, useCallback } from 'react'
-import { Cluster, Stack } from './components/layout'
+import { Cluster } from './components/layout'
 import "./Temp.css"
 import { usePorkChop } from './components'
 // ── Types ─────────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ interface JointCardProps {
   onRelease: (joint: JointName) => void
 }
 
-function JointCard({ label, name, angle, axis, mode, disabled, onPress, onRelease }: JointCardProps) {
+function JointCard({ label, name, angle, axis, disabled, onPress, onRelease }: JointCardProps) {
   const isHorizontal = axis === 'horizontal'
 
   const btnA = isHorizontal
@@ -91,7 +91,7 @@ function JointCard({ label, name, angle, axis, mode, disabled, onPress, onReleas
 // ── ArmControl ────────────────────────────────────────────────────────────
 
 export function ArmControl({
-  onCommand,
+
   onEStop,
   joints = { base: { angle: 0 }, shoulder: { angle: 0 }, elbow: { angle: 0 } },
 
@@ -99,7 +99,7 @@ export function ArmControl({
   const [mode, setMode] = useState<ControlMode>('momentary')
   const intervals = useRef<Partial<Record<JointName, ReturnType<typeof setInterval>>>>({})
   const latchedRef = useRef<Partial<Record<JointName, ReturnType<typeof setInterval>>>>({})
-  const { connect, connected, disconnect, sendCommand } = usePorkChop();
+  const { connect, connected, sendCommand } = usePorkChop();
 
   const clearAll = useCallback(() => {
     Object.values(intervals.current).forEach(clearInterval)
@@ -113,7 +113,7 @@ export function ArmControl({
 
     if (mode === 'momentary') {
       intervals.current[joint] = setInterval(() => {
-        sendCommand?.(joint, delta)
+        sendCommand?.(joint)
       }, INTERVAL_MS)
     } else {
       // latched: toggle
@@ -122,7 +122,7 @@ export function ArmControl({
         delete latchedRef.current[joint]
       } else {
         latchedRef.current[joint] = setInterval(() => {
-          sendCommand?.(joint, delta)
+          sendCommand?.(joint)
         }, INTERVAL_MS)
       }
     }
@@ -189,7 +189,7 @@ export function ArmControl({
               name={joint.name}
               label={joint.label}
               angle={joints[joint.name].angle}
-              axis={joint.axis}
+              axis={joint.axis as "horizontal" | "vertical"}
               mode={mode}
               disabled={!connected}
               onPress={handlePress}

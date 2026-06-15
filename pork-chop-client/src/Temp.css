@@ -98,7 +98,7 @@
 
 .joints-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: var(--sizzle-space-sm);
 }
 
@@ -145,8 +145,13 @@
   width: 100%;
 }
 
-.joint-btn-group--h { flex-direction: row; }
-.joint-btn-group--v { flex-direction: column; }
+.joint-btn-group--h {
+  flex-direction: row;
+}
+
+.joint-btn-group--v {
+  flex-direction: column;
+}
 
 .joint-btn {
   flex: 1;

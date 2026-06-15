@@ -1,8 +1,6 @@
-import { Cluster, Container, Grid } from '../layout';
-import { usePorkChop } from './context';
-import { ArrowLeftIcon, ArrowRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
+import { Cluster, Container } from '../layout';
+import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 function JointCard({ title = 'Base' }) {
-    const { connect, connected, disconnect } = usePorkChop();
 
     return (
         <Cluster>
