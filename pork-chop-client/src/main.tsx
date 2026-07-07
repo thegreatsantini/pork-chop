@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import './theme/sizzle-base.css'
+import './theme/sizzle-tokens.css'
+import './theme/sizzle-layout.css';
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(

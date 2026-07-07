@@ -1,0 +1,427 @@
+/* ============================================================
+   SIZZLE BASE — v1.0
+   Global element defaults using Sizzle tokens.
+   Import AFTER sizzle-tokens.css.
+
+   Philosophy:
+     - Bare elements get sensible themed defaults (no classnames needed)
+     - A small set of modifier classes (.primary, .danger, .ghost, etc.)
+       handles the most common variants — like Bootstrap but lighter
+     - Everything defers to tokens — never hardcode a color here
+   ============================================================ */
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Root ────────────────────────────────────────────────────────────────── */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--sizzle-bg);
+  color: var(--sizzle-text);
+  font-family: var(--sizzle-font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+svg {
+  display: block;
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--sizzle-font-display);
+  color: var(--sizzle-text);
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+h4 {
+  font-size: 1.3rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+a {
+  color: var(--sizzle-primary);
+  text-decoration: none;
+  transition: color var(--sizzle-transition);
+}
+
+a:hover {
+  color: var(--sizzle-text);
+}
+
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--sizzle-focus-ring);
+  border-radius: var(--sizzle-radius-sm);
+}
+
+strong,
+b {
+  font-weight: 700;
+  color: var(--sizzle-text);
+}
+
+small {
+  font-size: 0.8rem;
+  color: var(--sizzle-text-muted);
+}
+
+/* ── Code ────────────────────────────────────────────────────────────────── */
+
+code {
+  font-family: var(--sizzle-font-mono);
+  font-size: 0.875em;
+  background: var(--sizzle-surface-raised);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-sm);
+  padding: 1px 5px;
+  color: var(--sizzle-primary);
+}
+
+pre {
+  font-family: var(--sizzle-font-mono);
+  font-size: 0.875rem;
+  background: var(--sizzle-surface);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-md);
+  padding: var(--sizzle-space-lg);
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--sizzle-text);
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--sizzle-border);
+  margin: var(--sizzle-space-xl) 0;
+}
+
+/* ── Lists ───────────────────────────────────────────────────────────────── */
+
+ul,
+ol {
+  padding-left: var(--sizzle-space-xl);
+}
+
+li {
+  margin-bottom: var(--sizzle-space-xs);
+}
+
+/* ── Button ──────────────────────────────────────────────────────────────── 
+   Base: neutral dark surface button.
+   Variants via modifier classes: .primary .danger .success .warning .ghost
+   ─────────────────────────────────────────────────────────────────────── */
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sizzle-space-sm);
+
+  background: var(--sizzle-surface-raised);
+  color: var(--sizzle-text);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-md);
+
+  font-family: var(--sizzle-font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+
+  padding: var(--sizzle-space-sm) var(--sizzle-space-lg);
+  min-height: 38px;
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background var(--sizzle-transition),
+    border-color var(--sizzle-transition),
+    color var(--sizzle-transition),
+    transform var(--sizzle-transition);
+}
+
+button:hover:not(:disabled) {
+  background: var(--sizzle-border);
+  border-color: var(--sizzle-border-hover);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--sizzle-focus-ring);
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Primary — orange */
+button.primary {
+  background: var(--sizzle-primary-bg);
+  color: var(--sizzle-primary);
+  border-color: var(--sizzle-primary-border);
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--sizzle-primary);
+  color: var(--sizzle-bg);
+  border-color: var(--sizzle-primary);
+}
+
+/* Danger — red */
+button.danger {
+  background: var(--sizzle-danger-bg);
+  color: var(--sizzle-danger);
+  border-color: var(--sizzle-danger-border);
+}
+
+button.danger:hover:not(:disabled) {
+  background: var(--sizzle-danger);
+  color: var(--sizzle-bg);
+  border-color: var(--sizzle-danger);
+}
+
+/* Success — green */
+button.success {
+  background: var(--sizzle-success-bg);
+  color: var(--sizzle-success);
+  border-color: var(--sizzle-success-border);
+}
+
+button.success:hover:not(:disabled) {
+  background: var(--sizzle-success);
+  color: var(--sizzle-bg);
+  border-color: var(--sizzle-success);
+}
+
+/* Warning — yellow */
+button.warning {
+  background: var(--sizzle-warning-bg);
+  color: var(--sizzle-warning);
+  border-color: var(--sizzle-warning-border);
+}
+
+button.warning:hover:not(:disabled) {
+  background: var(--sizzle-warning);
+  color: var(--sizzle-bg);
+  border-color: var(--sizzle-warning);
+}
+
+/* Ghost — transparent, just a border */
+button.ghost {
+  background: transparent;
+  border-color: var(--sizzle-border);
+  color: var(--sizzle-text-muted);
+}
+
+button.ghost:hover:not(:disabled) {
+  background: var(--sizzle-surface);
+  color: var(--sizzle-text);
+  border-color: var(--sizzle-border-hover);
+}
+
+/* ── Inputs ──────────────────────────────────────────────────────────────── */
+
+input,
+textarea,
+select {
+  background: var(--sizzle-surface);
+  color: var(--sizzle-text);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-md);
+
+  font-family: var(--sizzle-font-body);
+  font-size: 0.9rem;
+  line-height: 1.4;
+
+  padding: var(--sizzle-space-sm) var(--sizzle-space-md);
+  min-height: 38px;
+  width: 100%;
+
+  transition:
+    border-color var(--sizzle-transition),
+    box-shadow var(--sizzle-transition);
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--sizzle-text-muted);
+}
+
+input:hover:not(:disabled),
+textarea:hover:not(:disabled),
+select:hover:not(:disabled) {
+  border-color: var(--sizzle-border-hover);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--sizzle-primary);
+  box-shadow: 0 0 0 1px var(--sizzle-primary);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Checkbox & radio — keep native but tint them */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 16px;
+  min-height: 16px;
+  padding: 0;
+  accent-color: var(--sizzle-primary);
+  cursor: pointer;
+}
+
+/* ── Label ───────────────────────────────────────────────────────────────── */
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--sizzle-text-muted);
+  margin-bottom: var(--sizzle-space-xs);
+  text-transform: uppercase;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+thead {
+  border-bottom: 1px solid var(--sizzle-border);
+}
+
+th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sizzle-text-muted);
+  padding: var(--sizzle-space-sm) var(--sizzle-space-md);
+}
+
+td {
+  padding: var(--sizzle-space-sm) var(--sizzle-space-md);
+  border-bottom: 1px solid var(--sizzle-border);
+  color: var(--sizzle-text);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: var(--sizzle-surface);
+}
+
+/* ── Scrollbar (webkit) ──────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sizzle-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sizzle-border);
+  border-radius: var(--sizzle-radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sizzle-border-hover);
+}
+
+/* ── Selection ───────────────────────────────────────────────────────────── */
+
+::selection {
+  background: var(--sizzle-primary-bg);
+  color: var(--sizzle-primary);
+}
+
+/* ============================================================
+   CHANGELOG
+   v1.0 — 2026-05-16 — initial base; reset, body, typography,
+                        button + variants, inputs, table, scrollbar,
+                        selection, focus ring
+   ============================================================ */

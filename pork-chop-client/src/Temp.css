@@ -1,0 +1,210 @@
+/* ArmControl.css */
+
+/* ── Shell ─────────────────────────────────────────────────── */
+
+.arm-control {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--sizzle-bg);
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+
+.arm-control__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sizzle-space-sm);
+  padding: var(--sizzle-space-sm) var(--sizzle-space-md);
+  background: var(--sizzle-surface);
+  border-bottom: 1px solid var(--sizzle-border);
+  flex-wrap: wrap;
+}
+
+.arm-control__title {
+  font-family: var(--sizzle-font-display);
+  font-size: 1.5rem;
+  color: var(--sizzle-text);
+  letter-spacing: 0.08em;
+}
+
+/* ── Status indicator ──────────────────────────────────────── */
+
+.arm-status {
+  display: flex;
+  align-items: center;
+  gap: var(--sizzle-space-xs);
+}
+
+.arm-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--sizzle-radius-pill);
+  background: var(--sizzle-border);
+  transition: background var(--sizzle-transition);
+}
+
+.arm-status__dot--on {
+  background: var(--sizzle-success);
+}
+
+.arm-status__text {
+  font-size: 1.5rem;
+  color: var(--sizzle-text-muted);
+}
+
+/* ── Mode toggle ───────────────────────────────────────────── */
+
+.mode-toggle {
+  display: flex;
+  background: var(--sizzle-surface-raised);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-md);
+  overflow: hidden;
+}
+
+.mode-toggle__btn {
+  padding: var(--sizzle-space-xs) var(--sizzle-space-md);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sizzle-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  min-height: unset;
+  cursor: pointer;
+  transition: background var(--sizzle-transition), color var(--sizzle-transition);
+}
+
+.mode-toggle__btn--active {
+  background: var(--sizzle-primary-bg);
+  color: var(--sizzle-primary);
+}
+
+/* ── Body ──────────────────────────────────────────────────── */
+
+.arm-control__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sizzle-space-lg);
+  padding: var(--sizzle-space-lg);
+}
+
+/* ── Joints grid ───────────────────────────────────────────── */
+
+.joints-grid {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+  gap: var(--sizzle-space-sm);
+}
+
+/* ── Joint card ────────────────────────────────────────────── */
+
+.joint-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sizzle-space-sm);
+  background: var(--sizzle-surface);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-lg);
+  padding: var(--sizzle-space-md) var(--sizzle-space-sm);
+}
+
+.joint-card__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sizzle-text-muted);
+}
+
+.joint-card__readout {
+  font-family: var(--sizzle-font-numbers);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--sizzle-primary);
+  line-height: 1;
+}
+
+.joint-card__unit {
+  font-size: 1.79rem;
+  color: var(--sizzle-text-muted);
+  font-weight: 400;
+}
+
+/* ── Joint buttons ─────────────────────────────────────────── */
+
+.joint-btn-group {
+  display: flex;
+  justify-content: space-between;
+
+  gap: var(--sizzle-space-lg);
+  width: 100%;
+}
+
+.joint-btn-group--h {
+  flex-direction: row;
+}
+
+.joint-btn-group--v {
+  flex-direction: column;
+}
+
+.joint-btn {
+  flex: 1;
+  min-height: 60px;
+  font-size: 1.8rem;
+  background: var(--sizzle-surface-raised);
+  border: 1px solid var(--sizzle-border);
+  border-radius: var(--sizzle-radius-md);
+  color: var(--sizzle-text);
+  touch-action: none;
+}
+
+.joint-btn:hover:not(:disabled) {
+  background: var(--sizzle-border);
+  border-color: var(--sizzle-border-hover);
+}
+
+.joint-btn:active:not(:disabled) {
+  background: var(--sizzle-primary-bg);
+  border-color: var(--sizzle-primary-border);
+  color: var(--sizzle-primary);
+  transform: scale(0.96);
+}
+
+/* ── E-Stop ────────────────────────────────────────────────── */
+
+.estop-btn {
+  background: var(--sizzle-danger-bg);
+  border: 1px solid var(--sizzle-danger-border);
+  color: var(--sizzle-danger);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: var(--sizzle-radius-md);
+  cursor: pointer;
+  transition: background var(--sizzle-transition), color var(--sizzle-transition);
+}
+
+.estop-btn:active {
+  background: var(--sizzle-danger);
+  color: var(--sizzle-bg);
+}
+
+.estop-btn--sm {
+  padding: var(--sizzle-space-md) var(--sizzle-space-lg);
+  font-size: 1.1rem;
+  min-height: unset;
+}
+
+.estop-btn--lg {
+  width: 100%;
+  min-height: 56px;
+  font-size: 1.8rem;
+}

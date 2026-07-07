@@ -1,0 +1,120 @@
+/* ============================================================
+   SIZZLE THEME — v1.4
+   Exploding Bacon Dark · FRC Team 1902
+   Stamped: 2026-05-14
+   Author: Shmook + Claude
+   Base: VS Code Dark+ (#1e1e1e, #252526, #2d2d30)
+   Source: Official Team 1902 Branding Cheatsheet V2020.1
+
+   Fonts (load via @fontsource on jsdelivr or npm):
+     @fontsource/bangers      — fun display headers (our addition)
+     @fontsource/open-sans    — body / UI copy (official team font)
+     @fontsource/teko         — robot numbers ONLY (official team font)
+
+   Usage:
+     import './theme/sizzle-tokens.css'
+     import './theme/sizzle-base.css'
+   ============================================================ */
+
+:root {
+
+  /* ── Base surfaces (VS Code Dark+) ───────────────────────── */
+  --sizzle-bg:             #1e1e1e;
+  --sizzle-surface:        #252526;
+  --sizzle-surface-raised: #2d2d30;
+  --sizzle-border:         #3c3c3c;
+  --sizzle-border-hover:   #555558;
+  --sizzle-text:           #d4d4d4;
+  --sizzle-text-muted:     #6a6a6a;
+  --sizzle-text-subtle:    #3e3e3e;
+
+  /* ── Orange · primary — Pantone 1665 (#EE4C23) ───────────── */
+  --sizzle-orange:         #EE4C23;
+  --sizzle-orange-bg:      #3a1a0a;
+  --sizzle-orange-border:  #6a2010;
+
+  /* ── Green · 4-H identity — Pantone 7738 (#50B04D) ──────── */
+  --sizzle-green:          #50B04D;
+  --sizzle-green-bg:       #1a2e1a;
+  --sizzle-green-border:   #2e5a2e;
+
+  /* ── Dark Green — Pantone 7739 (#0D9647) ─────────────────── */
+  --sizzle-green-dark:        #0D9647;
+  --sizzle-green-dark-bg:     #0e2018;
+  --sizzle-green-dark-border: #1a4a28;
+
+  /* ── Red · danger / stop / error ─────────────────────────── */
+  --sizzle-red:            #E53935;
+  --sizzle-red-bg:         #2e0e0e;
+  --sizzle-red-border:     #5a1a1a;
+
+  /* ── Yellow · warning ────────────────────────────────────── */
+  --sizzle-yellow:         #F5A623;
+  --sizzle-yellow-bg:      #2e1e08;
+  --sizzle-yellow-border:  #5a3a10;
+
+  /* ── Pink · endgame / special — Pantone 2036 (#FACBCC) ───── */
+  --sizzle-pink:           #FACBCC;
+  --sizzle-pink-bg:        #2e1a22;
+  --sizzle-pink-border:    #60283a;
+
+  /* ── Semantic aliases ─────────────────────────────────────── 
+     Point these at the color vars above.
+     Change a brand color? Update one line here, not everywhere. */
+  --sizzle-primary:           var(--sizzle-orange);
+  --sizzle-primary-bg:        var(--sizzle-orange-bg);
+  --sizzle-primary-border:    var(--sizzle-orange-border);
+
+  --sizzle-success:           var(--sizzle-green);
+  --sizzle-success-bg:        var(--sizzle-green-bg);
+  --sizzle-success-border:    var(--sizzle-green-border);
+
+  --sizzle-danger:            var(--sizzle-red);
+  --sizzle-danger-bg:         var(--sizzle-red-bg);
+  --sizzle-danger-border:     var(--sizzle-red-border);
+
+  --sizzle-warning:           var(--sizzle-yellow);
+  --sizzle-warning-bg:        var(--sizzle-yellow-bg);
+  --sizzle-warning-border:    var(--sizzle-yellow-border);
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --sizzle-font-display: 'Bangers', cursive;
+  --sizzle-font-body:    'Open Sans', sans-serif;
+  --sizzle-font-numbers: 'Teko', sans-serif;
+  --sizzle-font-mono:    'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+
+  /* ── Spacing scale ───────────────────────────────────────── */
+  --sizzle-space-xs:  4px;
+  --sizzle-space-sm:  8px;
+  --sizzle-space-md:  12px;
+  --sizzle-space-lg:  20px;
+  --sizzle-space-xl:  32px;
+  --sizzle-space-2xl: 48px;
+
+  /* ── Border radius ───────────────────────────────────────── */
+  --sizzle-radius-sm: 4px;
+  --sizzle-radius-md: 6px;
+  --sizzle-radius-lg: 10px;
+  --sizzle-radius-xl: 16px;
+  --sizzle-radius-pill: 999px;
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --sizzle-transition:       150ms ease;
+  --sizzle-transition-slow:  300ms ease;
+
+  /* ── Focus ring ──────────────────────────────────────────── */
+  --sizzle-focus-ring: 0 0 0 2px var(--sizzle-bg), 0 0 0 4px var(--sizzle-primary);
+}
+
+/* ============================================================
+   CHANGELOG
+   v1.0 — 2026-05-14 — initial stamp (guessed colors)
+   v1.1 — 2026-05-14 — rebuilt from official branding cheatsheet
+   v1.2 — 2026-05-14 — cast iron dark bg (warm near-black)
+   v1.3 — 2026-05-14 — switched bg to VS Code Dark+ (#1e1e1e);
+                        neutral charcoal, brand colors pop cleanly
+   v1.4 — 2026-05-16 — added red/danger tint triad; yellow/warning
+                        tint triad; semantic aliases (primary, success,
+                        danger, warning); spacing scale; font-mono;
+                        transition + focus ring tokens
+   ============================================================ */
