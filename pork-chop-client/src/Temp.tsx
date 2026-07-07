@@ -1,12 +1,11 @@
 // ArmControl.tsx
-import { useState, useRef, useCallback } from 'react'
+import {  useCallback } from 'react'
 import { Cluster } from './components/layout'
 import "./Temp.css"
 import { usePorkChop } from './components'
 // ── Types ─────────────────────────────────────────────────────────────────
 
 type JointName = 'base' | 'shoulder' | 'elbow' | 'pincher'
-type ControlMode = 'momentary' | 'latched'
 
 interface JointState {
   angle: number
@@ -28,7 +27,6 @@ const JOINT_CONFIG = [
 ]
 
 const STEP = 5
-const INTERVAL_MS = 100
 
 // ── JointCard ─────────────────────────────────────────────────────────────
 
@@ -37,7 +35,6 @@ interface JointCardProps {
   name: JointName
   angle: number
   axis: 'horizontal' | 'vertical'
-  mode: ControlMode
   disabled: boolean
   onPress: (joint: string, delta: number) => void
   onRelease: (joint: string) => void
@@ -95,7 +92,6 @@ export function ArmControl({
   joints = { base: { angle: 0 }, shoulder: { angle: 0 }, elbow: { angle: 0 }, pincher: { angle: 0 } },
 
 }: ArmControlProps) {
-  const [mode, setMode] = useState<ControlMode>('momentary')
   const { connect, connected, sendCommand } = usePorkChop();
 
   const clearAll = useCallback(() => {
@@ -106,9 +102,9 @@ export function ArmControl({
   const handlePress = useCallback((joint: string) => {
     if (!connected) return
         sendCommand?.(joint)
-  }, [connected, mode, sendCommand])
+  }, [connected, sendCommand])
 
-  const handleRelease = useCallback((joint: string) => {
+  const handleRelease = useCallback(() => {
     console.log('REALSED')
   }, [])
 
@@ -117,10 +113,7 @@ export function ArmControl({
     sendCommand('stop')
   }, [clearAll])
 
-  const handleModeChange = useCallback((m: ControlMode) => {
-    clearAll()
-    setMode(m)
-  }, [clearAll])
+ 
 
   return (
     <div className="arm-control">
@@ -167,7 +160,6 @@ export function ArmControl({
               label={joint.label}
               angle={joints[joint.name].angle}
               axis={joint.axis as "horizontal" | "vertical"}
-              mode={mode}
               disabled={!connected}
               onPress={handlePress}
               onRelease={handleRelease}
