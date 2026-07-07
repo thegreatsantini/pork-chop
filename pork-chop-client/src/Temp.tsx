@@ -5,7 +5,7 @@ import "./Temp.css"
 import { usePorkChop } from './components'
 // ── Types ─────────────────────────────────────────────────────────────────
 
-type JointName = 'base' | 'shoulder' | 'elbow'
+type JointName = 'base' | 'shoulder' | 'elbow' | 'pincher'
 type ControlMode = 'momentary' | 'latched'
 
 interface JointState {
@@ -14,7 +14,6 @@ interface JointState {
 
 interface ArmControlProps {
   onCommand?: (joint: JointName, delta: number) => void
-  onEStop?: () => void
   joints?: Record<JointName, JointState>
   connected?: boolean
 }
@@ -22,9 +21,10 @@ interface ArmControlProps {
 // ── Joint config ──────────────────────────────────────────────────────────
 
 const JOINT_CONFIG = [
-  { name: 'base' as JointName, label: 'Base', axis: 'horizontal', values: { left: 'e', right: 'q' } },
-  { name: 'shoulder' as JointName, label: 'Shoulder', axis: 'vertical', values: { left: 'a', right: 'd' } },
-  { name: 'elbow' as JointName, label: 'Elbow', axis: 'vertical', values: { left: 'w', right: 's' } },
+  { name: 'base' as JointName, label: 'Base', axis: 'horizontal', values: { left: 'q', right: 'e' } },
+  { name: 'shoulder' as JointName, label: 'Shoulder', axis: 'vertical', values: { left: 'w', right: 's' } },
+  { name: 'elbow' as JointName, label: 'Elbow', axis: 'vertical', values: { left: 'r', right: 'f' } },
+  { name: 'pincher' as JointName, label: 'Pincher', axis: 'horizontal', values: { left: 'a', right: 'd' } },
 ]
 
 const STEP = 5
@@ -69,8 +69,8 @@ function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }:
           title={btnA.title}
           disabled={disabled}
           onPointerDown={() => onPress(values.left, btnA.delta)}
-          onPointerUp={() => onRelease(values.left)}
-          onPointerLeave={() => onRelease(values.left)}
+          onPointerUp={() => onRelease('')}
+          onPointerLeave={() => onRelease('')}
         >
           {btnA.label}
         </button>
@@ -79,8 +79,8 @@ function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }:
           title={btnB.title}
           disabled={disabled}
           onPointerDown={() => onPress(values.right, btnB.delta)}
-          onPointerUp={() => onRelease(values.right)}
-          onPointerLeave={() => onRelease(values.right)}
+          onPointerUp={() => onRelease('')}
+          onPointerLeave={() => onRelease('')}
         >
           {btnB.label}
         </button>
@@ -92,55 +92,30 @@ function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }:
 // ── ArmControl ────────────────────────────────────────────────────────────
 
 export function ArmControl({
-
-  onEStop,
-  joints = { base: { angle: 0 }, shoulder: { angle: 0 }, elbow: { angle: 0 } },
+  joints = { base: { angle: 0 }, shoulder: { angle: 0 }, elbow: { angle: 0 }, pincher: { angle: 0 } },
 
 }: ArmControlProps) {
   const [mode, setMode] = useState<ControlMode>('momentary')
-  const intervals = useRef<Partial<Record<string, ReturnType<typeof setInterval>>>>({})
-  const latchedRef = useRef<Partial<Record<string, ReturnType<typeof setInterval>>>>({})
   const { connect, connected, sendCommand } = usePorkChop();
 
   const clearAll = useCallback(() => {
-    Object.values(intervals.current).forEach(clearInterval)
-    Object.values(latchedRef.current).forEach(clearInterval)
-    intervals.current = {}
-    latchedRef.current = {}
+    
+    
   }, [])
 
   const handlePress = useCallback((joint: string) => {
     if (!connected) return
-    console.log(joint)
-    if (mode === 'momentary') {
-      intervals.current[joint] = setInterval(() => {
         sendCommand?.(joint)
-      }, INTERVAL_MS)
-    } else {
-      // latched: toggle
-      if (latchedRef.current[joint] !== undefined) {
-        clearInterval(latchedRef.current[joint])
-        delete latchedRef.current[joint]
-      } else {
-        latchedRef.current[joint] = setInterval(() => {
-          sendCommand?.(joint)
-        }, INTERVAL_MS)
-      }
-    }
   }, [connected, mode, sendCommand])
 
   const handleRelease = useCallback((joint: string) => {
-    if (mode === 'momentary') {
-      clearInterval(intervals.current[joint])
-      delete intervals.current[joint]
-    }
-    // latched: ignore release
-  }, [mode])
+    console.log('REALSED')
+  }, [])
 
   const handleEStop = useCallback(() => {
     clearAll()
-    onEStop?.()
-  }, [clearAll, onEStop])
+    sendCommand('stop')
+  }, [clearAll])
 
   const handleModeChange = useCallback((m: ControlMode) => {
     clearAll()
@@ -160,7 +135,7 @@ export function ArmControl({
             <span className="arm-status__text">{connected ? 'Connected' : 'Disconnected'}</span>
           </div>
 
-          <div className="mode-toggle">
+          {/* <div className="mode-toggle">
             <button
               className={`mode-toggle__btn ${mode === 'momentary' ? 'mode-toggle__btn--active' : ''}`}
               onClick={() => handleModeChange('momentary')}
@@ -173,7 +148,7 @@ export function ArmControl({
             >
               Latched
             </button>
-          </div>
+          </div> */}
 
           <button className="estop-btn estop-btn--sm" onClick={connect}>
             Connect
