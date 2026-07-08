@@ -37,7 +37,7 @@ interface JointCardProps {
   axis: 'horizontal' | 'vertical'
   disabled: boolean
   onPress: (joint: string, delta: number) => void
-  onRelease: (joint: string) => void
+  onRelease: () => void
   values: { left: string, right: string }
 }
 
@@ -66,8 +66,8 @@ function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }:
           title={btnA.title}
           disabled={disabled}
           onPointerDown={() => onPress(values.left, btnA.delta)}
-          onPointerUp={() => onRelease('')}
-          onPointerLeave={() => onRelease('')}
+          onPointerUp={() => onRelease()}
+          onPointerLeave={() => onRelease()}
         >
           {btnA.label}
         </button>
@@ -76,8 +76,8 @@ function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }:
           title={btnB.title}
           disabled={disabled}
           onPointerDown={() => onPress(values.right, btnB.delta)}
-          onPointerUp={() => onRelease('')}
-          onPointerLeave={() => onRelease('')}
+          onPointerUp={() => onRelease()}
+          onPointerLeave={() => onRelease()}
         >
           {btnB.label}
         </button>
@@ -87,17 +87,10 @@ function JointCard({ label, values, angle, axis, disabled, onPress, onRelease }:
 }
 
 // ── ArmControl ────────────────────────────────────────────────────────────
-
 export function ArmControl({
   joints = { base: { angle: 0 }, shoulder: { angle: 0 }, elbow: { angle: 0 }, pincher: { angle: 0 } },
-
 }: ArmControlProps) {
   const { connect, connected, sendCommand } = usePorkChop();
-
-  const clearAll = useCallback(() => {
-    
-    
-  }, [])
 
   const handlePress = useCallback((joint: string) => {
     if (!connected) return
@@ -105,19 +98,15 @@ export function ArmControl({
   }, [connected, sendCommand])
 
   const handleRelease = useCallback(() => {
-    console.log('REALSED')
+    sendCommand('stop[')
   }, [])
 
   const handleEStop = useCallback(() => {
-    clearAll()
     sendCommand('stop')
-  }, [clearAll])
-
- 
+  }, [])
 
   return (
     <div className="arm-control">
-
       {/* ── Header ── */}
       <div className="arm-control__header">
         <span className="arm-control__title">PORKCHOP</span>
@@ -127,21 +116,6 @@ export function ArmControl({
             <span className={`arm-status__dot ${connected ? 'arm-status__dot--on' : ''}`} />
             <span className="arm-status__text">{connected ? 'Connected' : 'Disconnected'}</span>
           </div>
-
-          {/* <div className="mode-toggle">
-            <button
-              className={`mode-toggle__btn ${mode === 'momentary' ? 'mode-toggle__btn--active' : ''}`}
-              onClick={() => handleModeChange('momentary')}
-            >
-              Momentary
-            </button>
-            <button
-              className={`mode-toggle__btn ${mode === 'latched' ? 'mode-toggle__btn--active' : ''}`}
-              onClick={() => handleModeChange('latched')}
-            >
-              Latched
-            </button>
-          </div> */}
 
           <button className="estop-btn estop-btn--sm" onClick={connect}>
             Connect
