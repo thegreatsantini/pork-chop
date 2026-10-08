@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "run": "npx tsx src/server.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
